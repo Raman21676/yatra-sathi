@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import '../../models/models.dart';
 import '../../providers/providers.dart';
 import '../../utils/constants.dart';
 import '../../utils/helpers.dart';
+import '../offers/post_offer_screen.dart';
 import 'offers_list_screen.dart';
 import 'search_screen.dart';
 
@@ -146,7 +148,9 @@ class _HomeScreenState extends State<HomeScreen> {
       ),
       floatingActionButton: FloatingActionButton.extended(
         onPressed: () {
-          Navigator.of(context).pushNamed('/post-offer');
+          Navigator.of(context).push(
+            MaterialPageRoute(builder: (_) => const PostOfferScreen()),
+          );
         },
         icon: const Icon(Icons.add),
         label: const Text('Post Ride'),

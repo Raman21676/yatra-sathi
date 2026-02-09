@@ -7,3 +7,4 @@ export 'auth_service.dart';
 export 'offer_service.dart';
 export 'reservation_service.dart';
 export 'chat_service.dart';
+export 'cloudinary_service.dart';

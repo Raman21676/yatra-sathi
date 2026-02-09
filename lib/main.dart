@@ -1,9 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
+import 'models/models.dart';
 import 'providers/providers.dart';
 import 'services/services.dart';
 import 'screens/auth/splash_screen.dart';
+import 'screens/auth/login_screen.dart';
+import 'screens/auth/register_screen.dart';
+import 'screens/main/main_navigation.dart';
+import 'screens/offers/post_offer_screen.dart';
+import 'screens/offers/offer_detail_screen.dart';
+import 'screens/chat/chat_screen.dart';
 import 'utils/constants.dart';
 
 void main() async {
@@ -144,6 +151,32 @@ class MyApp extends StatelessWidget {
           fontFamily: 'Poppins',
         ),
         home: const SplashScreen(),
+        routes: {
+          '/home': (context) => const MainNavigation(),
+          '/login': (context) => const LoginScreen(),
+          '/register': (context) => const RegisterScreen(),
+          '/post-offer': (context) => const PostOfferScreen(),
+        },
+        onGenerateRoute: (settings) {
+          // Handle routes with arguments
+          switch (settings.name) {
+            case '/offer-detail':
+              final offer = settings.arguments as VehicleOffer;
+              return MaterialPageRoute(
+                builder: (_) => OfferDetailScreen(offer: offer),
+              );
+            case '/chat':
+              final args = settings.arguments as Map<String, dynamic>;
+              return MaterialPageRoute(
+                builder: (_) => ChatScreen(
+                  offer: args['offer'] as VehicleOffer,
+                  receiver: args['receiver'] as User,
+                ),
+              );
+            default:
+              return null;
+          }
+        },
       ),
     );
   }
