@@ -122,27 +122,33 @@ class _OfferDetailScreenState extends State<OfferDetailScreen> {
     if (confirmed != true || !mounted) return;
 
     // Book the seats
-    final response = await reservationProvider.bookReservation(
+    final success = await reservationProvider.bookReservation(
       offerId: widget.offer.id,
       seatsReserved: _seatsToBook,
     );
 
     if (!mounted) return;
 
-    if (response.success) {
+    if (success) {
       // Update available seats locally
       offerProvider.updateAvailableSeats(widget.offer.id, -_seatsToBook);
       
+      // Get the newly created reservation
+      final newReservation = reservationProvider.reservations.firstWhere(
+        (r) => r.offerId == widget.offer.id && r.status == 'confirmed',
+        orElse: () => null as Reservation,
+      );
+      
       setState(() {
         _hasReservation = true;
-        _existingReservation = response.reservation;
+        _existingReservation = newReservation.id != null ? newReservation : null;
       });
 
       Helpers.showSnackBar(context, 'Booking confirmed!');
     } else {
       Helpers.showSnackBar(
         context,
-        response.message,
+        reservationProvider.error ?? 'Booking failed',
         isError: true,
       );
     }

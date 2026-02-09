@@ -232,7 +232,9 @@ class UpdateOfferRequest {
   final String? vehicleType;
   final String? vehicleNumber;
   final String? vehiclePhoto;
+  final String? vehiclePhotoPublicId;
   final String? seatPhoto;
+  final String? seatPhotoPublicId;
   final int? seatsTotal;
   final double? fare;
   final String? fromLocation;
@@ -246,7 +248,9 @@ class UpdateOfferRequest {
     this.vehicleType,
     this.vehicleNumber,
     this.vehiclePhoto,
+    this.vehiclePhotoPublicId,
     this.seatPhoto,
+    this.seatPhotoPublicId,
     this.seatsTotal,
     this.fare,
     this.fromLocation,
@@ -262,7 +266,9 @@ class UpdateOfferRequest {
     if (vehicleType != null) data['vehicleType'] = vehicleType;
     if (vehicleNumber != null) data['vehicleNumber'] = vehicleNumber?.toUpperCase();
     if (vehiclePhoto != null) data['vehiclePhoto'] = vehiclePhoto;
+    if (vehiclePhotoPublicId != null) data['vehiclePhotoPublicId'] = vehiclePhotoPublicId;
     if (seatPhoto != null) data['seatPhoto'] = seatPhoto;
+    if (seatPhotoPublicId != null) data['seatPhotoPublicId'] = seatPhotoPublicId;
     if (seatsTotal != null) data['seatsTotal'] = seatsTotal;
     if (fare != null) data['fare'] = fare;
     if (fromLocation != null) data['fromLocation'] = fromLocation;

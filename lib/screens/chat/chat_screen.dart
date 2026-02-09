@@ -30,8 +30,6 @@ class _ChatScreenState extends State<ChatScreen> {
   bool _isLoading = true;
   bool _isTyping = false;
   Timer? _typingTimer;
-  StreamSubscription? _messageSubscription;
-  StreamSubscription? _typingSubscription;
 
   User? get _currentUser =>
       Provider.of<AuthProvider>(context, listen: false).user;
@@ -93,28 +91,19 @@ class _ChatScreenState extends State<ChatScreen> {
   }
 
   void _setupListeners() {
+    // The ChatProvider handles socket events internally
+    // We just need to refresh messages when the provider updates
     final chatProvider = Provider.of<ChatProvider>(context, listen: false);
-
-    // Listen for new messages
-    _messageSubscription = chatProvider.messageStream.listen((message) {
-      if (mounted && message.offerId == widget.offer.id) {
-        setState(() {
-          _messages.add(message);
-        });
-        _scrollToBottom();
-      }
-    });
-
-    // Listen for typing indicators
-    _typingSubscription = chatProvider.typingStream.listen((data) {
+    
+    // Listen for provider changes
+    chatProvider.addListener(() {
       if (mounted) {
-        final userId = data['userId'] as String?;
-        final type = data['type'] as String?;
-
-        if (userId != null && userId != _currentUser?.id) {
-          setState(() {
-            _isTyping = type == 'typing';
-          });
+        setState(() {
+          _messages = chatProvider.messages;
+          _isTyping = chatProvider.otherUserTyping.values.any((v) => v);
+        });
+        if (_messages.length > 0) {
+          _scrollToBottom();
         }
       }
     });
@@ -167,8 +156,6 @@ class _ChatScreenState extends State<ChatScreen> {
 
   @override
   void dispose() {
-    _messageSubscription?.cancel();
-    _typingSubscription?.cancel();
     _typingTimer?.cancel();
     _messageController.dispose();
     _scrollController.dispose();

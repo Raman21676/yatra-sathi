@@ -265,6 +265,13 @@ class ChatProvider extends ChangeNotifier {
     await _chatService.connect();
   }
 
+  /// Disconnect socket
+  void disconnect() {
+    _chatService.disconnect();
+    _isConnected = false;
+    notifyListeners();
+  }
+
   /// Dispose provider
   @override
   void dispose() {

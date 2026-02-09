@@ -106,7 +106,7 @@ class MyApp extends StatelessWidget {
               foregroundColor: const Color(UIConstants.primaryColor),
             ),
           ),
-          cardTheme: CardTheme(
+          cardTheme: CardThemeData(
             elevation: 2,
             shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(UIConstants.defaultRadius),

@@ -89,7 +89,7 @@ class ReservationService {
     final reservations = await getMyReservations();
     return reservations
         .where((r) => r.status == 'confirmed')
-        .fold(0, (sum, r) => sum + r.seatsReserved);
+        .fold<int>(0, (sum, r) => sum + r.seatsReserved);
   }
 
   /// Calculate total fare for user's reservations
@@ -97,6 +97,6 @@ class ReservationService {
     final reservations = await getMyReservations();
     return reservations
         .where((r) => r.status == 'confirmed')
-        .fold(0.0, (sum, r) => sum + r.totalFare);
+        .fold<double>(0.0, (sum, r) => sum + r.totalFare);
   }
 }
